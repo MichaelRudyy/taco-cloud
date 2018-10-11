@@ -3,13 +3,14 @@ package com.mcrudyy.tacocloud.controller;
 import com.mcrudyy.tacocloud.data.Ingredient;
 import com.mcrudyy.tacocloud.data.TacoDesign;
 import com.mcrudyy.tacocloud.data.Ingredient.Type;
-import org.apache.tomcat.jni.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,7 +27,7 @@ public class DesignController {
 
     @GetMapping
     public java.lang.String getDesign(Model model) {
-        List<Ingredient> ingradients = Arrays.asList(
+        List<Ingredient> ingredients = Arrays.asList(
                 new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
                 new Ingredient("COTO", "Corn Tortilla", Ingredient.Type.WRAP),
                 new Ingredient("GRBF", "Ground Beef", Ingredient.Type.PROTEIN),
@@ -43,7 +44,7 @@ public class DesignController {
 
         for (Type type : types) {
             model.addAttribute(type.toString().toLowerCase(),
-                    filterByType(ingradients, type));
+                    filterByType(ingredients, type));
         }
         log.info("Add ingradients by type in Model");
 
@@ -55,10 +56,16 @@ public class DesignController {
     }
 
     @PostMapping
-    public String submitTacoDesign(@Valid TacoDesign design, Errors errors) {
+    public String submitTacoDesign(@Valid @ModelAttribute("design") TacoDesign design, Errors errors) {
+
         if (errors.hasErrors()) {
+            List<FieldError> fieldErrors = errors.getFieldErrors();
+            for (FieldError e : fieldErrors) {
+                log.info(" -- " + e.getField());
+            }
             return "design";
         }
+
 
         log.info("Get TacoDesign: " + design.toString());
         return "redirect:/";

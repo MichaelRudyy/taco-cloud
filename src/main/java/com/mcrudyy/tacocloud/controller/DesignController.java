@@ -61,14 +61,14 @@ public class DesignController {
         if (errors.hasErrors()) {
             List<FieldError> fieldErrors = errors.getFieldErrors();
             for (FieldError e : fieldErrors) {
-                log.info(" -- " + e.getField());
+                log.info("" + e.getField());
             }
             return "design";
         }
 
 
         log.info("Get TacoDesign: " + design.toString());
-        return "redirect:/";
+        return "redirect:/orders/current";
     }
 
     private List<Ingredient> filterByType(List<Ingredient> list, Ingredient.Type type) {

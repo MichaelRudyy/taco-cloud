@@ -1,15 +1,19 @@
 package com.mcrudyy.tacocloud.controller;
 
-import com.mcrudyy.tacocloud.data.Design;
 import com.mcrudyy.tacocloud.data.Ingredient;
+import com.mcrudyy.tacocloud.data.TacoDesign;
 import com.mcrudyy.tacocloud.data.Ingredient.Type;
+import org.apache.tomcat.jni.Error;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +25,7 @@ public class DesignController {
     private final Logger log = LoggerFactory.getLogger(DesignController.class);
 
     @GetMapping
-    public String getDesign(Model model) {
+    public java.lang.String getDesign(Model model) {
         List<Ingredient> ingradients = Arrays.asList(
                 new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
                 new Ingredient("COTO", "Corn Tortilla", Ingredient.Type.WRAP),
@@ -38,14 +42,26 @@ public class DesignController {
         Type[] types = Type.values();
 
         for (Type type : types) {
-            model.addAttribute(types.toString().toLowerCase(),
+            model.addAttribute(type.toString().toLowerCase(),
                     filterByType(ingradients, type));
         }
-
-        model.addAttribute("design",new Design());
         log.info("Add ingradients by type in Model");
-        log.info("Generate Design");
+
+        model.addAttribute("design", new TacoDesign());
+
+        log.info("Generate design.html with " + model.toString());
+
         return "design";
+    }
+
+    @PostMapping
+    public String submitTacoDesign(@Valid TacoDesign design, Errors errors) {
+        if (errors.hasErrors()) {
+            return "design";
+        }
+
+        log.info("Get TacoDesign: " + design.toString());
+        return "redirect:/";
     }
 
     private List<Ingredient> filterByType(List<Ingredient> list, Ingredient.Type type) {

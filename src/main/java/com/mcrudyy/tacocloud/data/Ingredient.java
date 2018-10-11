@@ -11,10 +11,9 @@ public class Ingredient {
         this.type = type;
     }
 
-    public static enum Type{
+    public static enum Type {
         WRAP, PROTEIN, VEGGIES, CHEESE, SAUCE
     }
-
 
     public String getId() {
         return id;
@@ -26,5 +25,14 @@ public class Ingredient {
 
     public Type getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type=" + type +
+                '}';
     }
 }

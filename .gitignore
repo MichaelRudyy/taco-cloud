@@ -3,6 +3,7 @@
 
 # IDEA folder
 /.idea
+.idea
 
 # Target Folder
 /target

@@ -25,8 +25,8 @@ public class DesignController {
 
     private final Logger log = LoggerFactory.getLogger(DesignController.class);
 
-    @GetMapping
-    public java.lang.String getDesign(Model model) {
+    @ModelAttribute
+    public void setIngredients(Model model) {
         List<Ingredient> ingredients = Arrays.asList(
                 new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
                 new Ingredient("COTO", "Corn Tortilla", Ingredient.Type.WRAP),
@@ -46,7 +46,12 @@ public class DesignController {
             model.addAttribute(type.toString().toLowerCase(),
                     filterByType(ingredients, type));
         }
-        log.info("Add ingradients by type in Model");
+    }
+
+    @GetMapping
+    public String getDesign(Model model) {
+
+        log.info("Add ingredients by type in Model");
 
         model.addAttribute("design", new TacoDesign());
 
@@ -61,11 +66,10 @@ public class DesignController {
         if (errors.hasErrors()) {
             List<FieldError> fieldErrors = errors.getFieldErrors();
             for (FieldError e : fieldErrors) {
-                log.info("" + e.getField());
+                log.info("Error Have been fount in design's " + e.getField());
             }
             return "design";
         }
-
 
         log.info("Get TacoDesign: " + design.toString());
         return "redirect:/orders/current";

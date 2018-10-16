@@ -1,10 +1,19 @@
 package com.mcrudyy.tacocloud.data;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 import java.util.List;
 
+@Data
 public class TacoDesign {
+
+    private String id;
+
+    private Date createdAt;
+
     @NotNull
     @Size(min = 5, message = "Must be longer then 5")
     private String name;
@@ -12,37 +21,4 @@ public class TacoDesign {
     @NotNull(message = "Must be bigger then 2 ingredient")
     @Size(min = 2, message = "Must be bigger then 2 ingredient")
     private List<String> ingredients;
-
-    public TacoDesign(String name,
-                      List<String> ingredients) {
-        this.name = name;
-        this.ingredients = ingredients;
-    }
-
-    public TacoDesign() {
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getIngredients() {
-        return ingredients;
-    }
-
-    @Override
-    public java.lang.String toString() {
-        return "TacoDesign{" +
-                "name='" + name + '\'' +
-                ", ingredients=" + ingredients +
-                '}';
-    }
 }

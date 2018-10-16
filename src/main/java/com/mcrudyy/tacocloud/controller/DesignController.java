@@ -3,8 +3,7 @@ package com.mcrudyy.tacocloud.controller;
 import com.mcrudyy.tacocloud.data.Ingredient;
 import com.mcrudyy.tacocloud.data.TacoDesign;
 import com.mcrudyy.tacocloud.data.Ingredient.Type;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -19,11 +18,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Controller
 @RequestMapping("/design")
 public class DesignController {
-
-    private final Logger log = LoggerFactory.getLogger(DesignController.class);
 
     @ModelAttribute
     public void setIngredients(Model model) {

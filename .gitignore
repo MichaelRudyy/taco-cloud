@@ -5,6 +5,10 @@
 /.idea
 .idea
 
+# Workspace file
+workspace.xml
+
+
 # Target Folder
 /target
 

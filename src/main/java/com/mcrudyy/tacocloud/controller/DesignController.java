@@ -57,7 +57,7 @@ public class DesignController {
 
     // TODO Нужно придумать как передавать дизайн тако
     @PostMapping
-    public String submitTacoDesign(Model model, @Valid @ModelAttribute("design") TacoDesign design, Errors errors) {
+    public String submitTacoDesign(@Valid @ModelAttribute("design") TacoDesign design, Errors errors) {
         if (errors.hasErrors()) {
             List<FieldError> fieldErrors = errors.getFieldErrors();
             for (FieldError e : fieldErrors) {

@@ -1,4 +1,6 @@
-package com.mcrudyy.tacocloud.data;
+package com.mcrudyy.tacocloud.repository;
+
+import com.mcrudyy.tacocloud.data.Ingredient;
 
 public interface IngredientRepository {
 

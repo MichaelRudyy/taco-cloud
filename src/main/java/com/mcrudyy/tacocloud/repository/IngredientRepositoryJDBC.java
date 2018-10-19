@@ -22,17 +22,26 @@ public class IngredientRepositoryJDBC implements IngredientRepository {
 
     @Override
     public Iterable<Ingredient> findAll() {
-        return jdbc.query("select id,name,type from Ingedient", this::mapRowToIngredient)
+        return jdbc.query("SELECT id, name, type FROM Ingedient"
+                , this::mapRowToIngredient);
     }
 
     @Override
     public Ingredient findOne(String id) {
-        return null;
+        return jdbc.queryForObject(
+                "SELECT id, name, type FROM Ingedient WHERE id=?"
+                , this::mapRowToIngredient
+                , id);
     }
+
 
     @Override
     public Ingredient save(Ingredient ingredient) {
-        return null;
+        jdbc.update("INSERT INTO Ingredient (id, name, type) VALUES (?, ?, ?)"
+                , ingredient.getId()
+                , ingredient.getName()
+                , ingredient.getType().toString());
+        return ingredient;
     }
 
     private Ingredient mapRowToIngredient(ResultSet rs, int rowNum) throws SQLException {

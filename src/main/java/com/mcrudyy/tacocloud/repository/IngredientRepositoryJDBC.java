@@ -11,39 +11,40 @@ import java.sql.SQLException;
 @Repository
 public class IngredientRepositoryJDBC implements IngredientRepository {
 
+    // It Works
+    @Autowired
     private JdbcTemplate jdbc;
 
-    @Autowired
+/*    @Autowired
     public IngredientRepositoryJDBC(JdbcTemplate jdbc) {
         this.jdbc = jdbc;
-    }
-
-    // TODO Перевірити чи буде воно працювати якщо прописати @Autowired над jdbc
+    }*/
 
     @Override
     public Iterable<Ingredient> findAll() {
-        return jdbc.query("SELECT id, name, type FROM Ingredient"
-                , this::mapRowToIngredient);
+        return jdbc.query("SELECT id, name, type FROM Ingredient",
+                this::mapRowToIngredient);
     }
 
     @Override
     public Ingredient findOne(String id) {
         return jdbc.queryForObject(
-                "SELECT id, name, type FROM Ingredient WHERE id=?"
-                , this::mapRowToIngredient
-                , id);
+                "SELECT id, name, type FROM Ingredient WHERE id=?",
+                this::mapRowToIngredient,
+                id);
     }
 
 
     @Override
     public Ingredient save(Ingredient ingredient) {
-        jdbc.update("INSERT INTO Ingredient (id, name, type) VALUES (?, ?, ?)"
-                , ingredient.getId()
-                , ingredient.getName()
-                , ingredient.getType().toString());
+        jdbc.update("INSERT INTO Ingredient (id, name, type) VALUES (?, ?, ?)",
+                ingredient.getId(),
+                ingredient.getName(),
+                ingredient.getType().toString());
         return ingredient;
     }
 
+    // Return Ingredient element from Result Set
     private Ingredient mapRowToIngredient(ResultSet rs, int rowNum) throws SQLException {
         return new Ingredient(
                 rs.getString("id"),

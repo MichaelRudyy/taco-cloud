@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,8 +25,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/design")
 public class DesignController {
 
+    private final IngredientRepository ingredientRepository;
+
     @Autowired
-    IngredientRepository ingredientRepository;
+    public DesignController(IngredientRepository ingredientRepository) {
+        this.ingredientRepository = ingredientRepository;
+    }
 
     @ModelAttribute
     public void setIngredients(Model model) {

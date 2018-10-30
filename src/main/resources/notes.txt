@@ -1,7 +1,7 @@
 
 DataBase:
  - Ingredients - list of existing ingredients;
- - Taco - Common data about taco (without ingredients)
+ - Taco - Common(essential) data about taco (without ingredients)
  - Taco_Ingredients - List of Ingredients for every taco
  - Taco_Order - Order details
  - Taco_Order_Tacos - Map Taco to Order

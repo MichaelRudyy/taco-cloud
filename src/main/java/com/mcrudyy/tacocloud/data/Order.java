@@ -8,8 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.util.Date;
 
-// TODO fill Order by content
-
 @Data
 public class Order {
     private String id;

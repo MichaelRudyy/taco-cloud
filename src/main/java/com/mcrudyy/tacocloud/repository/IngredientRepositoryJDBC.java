@@ -22,14 +22,14 @@ public class IngredientRepositoryJDBC implements IngredientRepository {
 
     @Override
     public Iterable<Ingredient> findAll() {
-        return jdbc.query("SELECT id, name, type FROM Ingedient"
+        return jdbc.query("SELECT id, name, type FROM Ingredient"
                 , this::mapRowToIngredient);
     }
 
     @Override
     public Ingredient findOne(String id) {
         return jdbc.queryForObject(
-                "SELECT id, name, type FROM Ingedient WHERE id=?"
+                "SELECT id, name, type FROM Ingredient WHERE id=?"
                 , this::mapRowToIngredient
                 , id);
     }

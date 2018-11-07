@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class TacoDesign {
+public class Taco {
 
     private String id;
 

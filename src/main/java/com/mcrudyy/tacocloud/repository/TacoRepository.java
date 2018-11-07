@@ -1,8 +1,8 @@
 package com.mcrudyy.tacocloud.repository;
 
-import com.mcrudyy.tacocloud.data.TacoDesign;
+import com.mcrudyy.tacocloud.data.Taco;
 
 public interface TacoRepository {
 
-    TacoDesign save(TacoDesign taco);
+    Taco save(Taco taco);
 }

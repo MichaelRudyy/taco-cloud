@@ -11,7 +11,7 @@ import java.sql.SQLException;
 @Repository
 public class IngredientRepositoryJDBC implements IngredientRepository {
 
-    // It Works
+    // It Works, but what a point about it? Need to be asked in Stackoverflow
     @Autowired
     private JdbcTemplate jdbc;
 
@@ -44,7 +44,7 @@ public class IngredientRepositoryJDBC implements IngredientRepository {
         return ingredient;
     }
 
-    // Return Ingredient element from Result Set
+    // Get (Return) Ingredient element from Result Set
     private Ingredient mapRowToIngredient(ResultSet rs, int rowNum) throws SQLException {
         return new Ingredient(
                 rs.getString("id"),

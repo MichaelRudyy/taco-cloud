@@ -1,7 +1,7 @@
 package com.mcrudyy.tacocloud.controller;
 
 import com.mcrudyy.tacocloud.data.Ingredient;
-import com.mcrudyy.tacocloud.data.TacoDesign;
+import com.mcrudyy.tacocloud.data.Taco;
 import com.mcrudyy.tacocloud.data.Ingredient.Type;
 import com.mcrudyy.tacocloud.repository.IngredientRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -10,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -23,29 +20,30 @@ import java.util.stream.Collectors;
 @Slf4j
 @Controller
 @RequestMapping("/design")
-public class DesignController {
+@SessionAttributes("order") // TODO WTF?
+public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
 
     @Autowired
-    public DesignController(IngredientRepository ingredientRepository) {
+    public DesignTacoController(IngredientRepository ingredientRepository) {
         this.ingredientRepository = ingredientRepository;
     }
 
     @ModelAttribute
     public void setIngredients(Model model) {
-//        List<Ingredient> ingredients = Arrays.asList(
-//                new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
-//                new Ingredient("COTO", "Corn Tortilla", Ingredient.Type.WRAP),
-//                new Ingredient("GRBF", "Ground Beef", Ingredient.Type.PROTEIN),
-//                new Ingredient("CARN", "Carnitas", Ingredient.Type.PROTEIN),
-//                new Ingredient("TMTO", "Diced Tomatoes", Ingredient.Type.VEGGIES),
-//                new Ingredient("LETC", "Lettuce", Ingredient.Type.VEGGIES),
-//                new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE),
-//                new Ingredient("JACK", "Monterrey Jack", Ingredient.Type.CHEESE),
-//                new Ingredient("SLSA", "Salsa", Ingredient.Type.SAUCE),
-//                new Ingredient("SRCR", "Sour Cream", Ingredient.Type.SAUCE)
-//        );
+/*        List<Ingredient> ingredients = Arrays.asList(
+                new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
+                new Ingredient("COTO", "Corn Tortilla", Ingredient.Type.WRAP),
+                new Ingredient("GRBF", "Ground Beef", Ingredient.Type.PROTEIN),
+                new Ingredient("CARN", "Carnitas", Ingredient.Type.PROTEIN),
+                new Ingredient("TMTO", "Diced Tomatoes", Ingredient.Type.VEGGIES),
+                new Ingredient("LETC", "Lettuce", Ingredient.Type.VEGGIES),
+                new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE),
+                new Ingredient("JACK", "Monterrey Jack", Ingredient.Type.CHEESE),
+                new Ingredient("SLSA", "Salsa", Ingredient.Type.SAUCE),
+                new Ingredient("SRCR", "Sour Cream", Ingredient.Type.SAUCE)
+        );*/
 
         List<Ingredient> ingredients = new ArrayList<>();
         ingredientRepository.findAll().forEach(c->ingredients.add(c));
@@ -61,7 +59,7 @@ public class DesignController {
     @GetMapping
     public String getDesign(Model model) {
         log.info("Add ingredients by type in Model");
-        model.addAttribute("design", new TacoDesign());
+        model.addAttribute("design", new Taco());
         log.info("Generate design.html with " + model.toString());
 
         return "design";
@@ -69,7 +67,7 @@ public class DesignController {
 
     // TODO Нужно придумать как передавать дизайн тако
     @PostMapping
-    public String submitTacoDesign(@Valid @ModelAttribute("design") TacoDesign design, Errors errors) {
+    public String submitTacoDesign(@Valid @ModelAttribute("design") Taco design, Errors errors) {
         if (errors.hasErrors()) {
             List<FieldError> fieldErrors = errors.getFieldErrors();
             for (FieldError e : fieldErrors) {
@@ -78,8 +76,8 @@ public class DesignController {
             return "design";
         }
 
-        log.info("Get TacoDesign: " + design.toString());
-        return "redirect:/orders/current";
+        log.info("Get Taco: " + design.toString());
+        return "redirect:/orders/current"; // redirect to the page without changing URL
     }
 
     private List<Ingredient> filterByType(List<Ingredient> list, Ingredient.Type type) {

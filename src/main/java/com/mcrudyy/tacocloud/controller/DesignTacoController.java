@@ -1,9 +1,11 @@
 package com.mcrudyy.tacocloud.controller;
 
 import com.mcrudyy.tacocloud.data.Ingredient;
+import com.mcrudyy.tacocloud.data.Order;
 import com.mcrudyy.tacocloud.data.Taco;
 import com.mcrudyy.tacocloud.data.Ingredient.Type;
 import com.mcrudyy.tacocloud.repository.IngredientRepository;
+import com.mcrudyy.tacocloud.repository.TacoRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,10 +26,23 @@ import java.util.stream.Collectors;
 public class DesignTacoController {
 
     private final IngredientRepository ingredientRepository;
+    private TacoRepository tacoRepository;
 
     @Autowired
-    public DesignTacoController(IngredientRepository ingredientRepository) {
+    public DesignTacoController(IngredientRepository ingredientRepository,
+                                TacoRepository tacoRepository) {
         this.ingredientRepository = ingredientRepository;
+        this.tacoRepository = tacoRepository;
+    }
+
+    @ModelAttribute(name = "order")
+    public Order order() {
+        return new Order();
+    }
+
+    @ModelAttribute(name = "taco")
+    public Taco taco() {
+        return new Taco();
     }
 
     @ModelAttribute

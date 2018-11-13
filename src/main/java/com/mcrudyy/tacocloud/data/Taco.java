@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class Taco {
 
-    private String id;
+    private long id;
 
     private Date createdAt;
 
@@ -20,5 +20,5 @@ public class Taco {
 
     @NotNull(message = "Must be bigger then 2 ingredient")
     @Size(min = 2, message = "Must be bigger then 2 ingredient")
-    private List<String> ingredients;
+    private List<Ingredient> ingredients;
 }
